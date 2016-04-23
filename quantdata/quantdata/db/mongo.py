@@ -26,13 +26,16 @@ class Mongo(Database):
     
     def updateMainReport(self,code):
         
-        df = basic.get_main_report(code)
-        cursor = self.__connection[self.__database][self.__main_report_collect].find({"code":code}).sort([("date",-1)]).limit(1)
-        if cursor.count() > 0:
-            last_date = str(cursor[0]['date'])
-            df = df[df.date > last_date]
-        if not df.empty:
-            df.insert(len(df.columns), "code",code)
-            self.__connection[self.__database][self.__main_report_collect].insert(json.loads(df.to_json(orient='records')))
+        try:
         
+            df = basic.get_main_report(code)
+            cursor = self.__connection[self.__database][self.__main_report_collect].find({"code":code}).sort([("date",-1)]).limit(1)
+            if cursor.count() > 0:
+                last_date = str(cursor[0]['date'])
+                df = df[df.date > last_date]
+            if not df.empty:
+                df.insert(len(df.columns), "code",code)
+                self.__connection[self.__database][self.__main_report_collect].insert(json.loads(df.to_json(orient='records')))
+        except Exception as e:
+            print(e)
 
