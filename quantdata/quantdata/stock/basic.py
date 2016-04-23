@@ -75,9 +75,7 @@ if __name__ == '__main__':
     
     df = get_main_report(u'600000')
     print df 
-    '''
-    from datetime import datetime
-    d = datetime.strptime("2013-12-31","%Y-%m-%d")
+    d = "2013-12-31"
     
     print df[df.date>d]
-    '''
+    
