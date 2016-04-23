@@ -1,2 +1,2 @@
-*.egg-info
-*.pyc
+/cons.pyc
+/logger.pyc
