@@ -29,6 +29,8 @@ class Mongo(Database):
         try:
         
             df = basic.get_main_report(code)
+            if df is None:
+                return
             cursor = self.__connection[self.__database][self.__main_report_collect].find({"code":code}).sort([("date",-1)]).limit(1)
             if cursor.count() > 0:
                 last_date = str(cursor[0]['date'])
