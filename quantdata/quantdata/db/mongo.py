@@ -1,6 +1,5 @@
 # -*- coding:utf-8 -*-
 from pymongo import MongoClient
-from datetime import datetime
 import json
 from quantdata.stock import basic
 from quantdata import cons as ct
@@ -30,7 +29,7 @@ class Mongo(Database):
         df = basic.get_main_report(code)
         cursor = self.__connection[self.__database][self.__main_report_collect].find({"code":code}).sort([("date",-1)]).limit(1)
         if cursor.count() > 0:
-            last_date = datetime.strptime(cursor[0]['date'],self.__date_fmt)
+            last_date = str(cursor[0]['date'])
             df = df[df.date > last_date]
         if not df.empty:
             df.insert(len(df.columns), "code",code)

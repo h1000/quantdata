@@ -53,6 +53,7 @@ def _get_main_report(code):
         request = Request(ct.THS_MAIN_DATA_URL%(code))
         request.add_header("User-Agent", ct.USER_AGENT)
         text = urlopen(request, timeout=ct.API_TIMEOUT).read()
+        print text
         text = text.decode('gbk') if ct.PY3 else text 
         js = json.loads(text.strip())
         if js is None:
@@ -66,7 +67,6 @@ def _get_main_report(code):
             else:
                 df[col] = js['report'][i]
             i+=1
-        df['date'] = pd.to_datetime(df['date'])
         return df
     except Exception as e:
         print(e) 
