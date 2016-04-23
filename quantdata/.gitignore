@@ -1,2 +1,2 @@
-/quantdata.egg-info
+*.egg-info
 *.pyc
