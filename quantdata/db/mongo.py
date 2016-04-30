@@ -40,4 +40,6 @@ class Mongo(Database):
                 self.__connection[self.__database][self.__main_report_collect].insert(json.loads(df.to_json(orient='records')))
         except Exception as e:
             print(e)
-
+            
+    def getDB(self):
+        return self.__connection[self.__database]
