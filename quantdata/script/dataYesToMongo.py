@@ -2,6 +2,7 @@ import tushare as ts
 import quantdata.cons as ct
 from quantdata.db.mongo import Mongo
 from datetime import datetime
+from quantdata import logger
 import time
 import json
 
@@ -23,6 +24,10 @@ def fetch_cnstock_hist_to_mongo():
     
     '''get qoute data '''
     
+    #set log 
+    LOGGER_NAME = "TONGLIAN_DATA"
+    mylog = logger.getLogger(LOGGER_NAME)
+    
     #get the stock list
     today = datetime.strftime(datetime.today(),"%Y%m%d")
     mongo = Mongo()
@@ -30,6 +35,7 @@ def fetch_cnstock_hist_to_mongo():
     cursor = db.stock_list.find({"exchangeCD":["XSHG","XSHE"],"listStatusCD":"L"})
     for row in cursor:
         ticker = str(row['ticker'])
+        mylog.info("update history data of %s"%(ticker))
         exchangeCD = str(row['exchangeCD'])
         listDate =  str(row['listDate']).replace("-", "").replace("NaN", "")
         if exchangeCD == 'XSHG' and not ticker.startswith("6"):
