@@ -32,7 +32,7 @@ def fetch_cnstock_hist_to_mongo():
     today = datetime.strftime(datetime.today(),"%Y%m%d")
     mongo = Mongo()
     db = mongo.getDB()
-    cursor = db.stock_list.find({"exchangeCD":["XSHG","XSHE"],"listStatusCD":"L"})
+    cursor = db.stock_list.find({"exchangeCD":{"$in":["XSHE","XSHG"]},"listStatusCD":"L"})
     for row in cursor:
         ticker = str(row['ticker'])
         mylog.info("update history data of %s"%(ticker))
