@@ -8,11 +8,15 @@ import pandas as pd
 mongo = Mongo()
 db = mongo.getDB()
 
+#set log 
+LOGGER_NAME = "get the PB"
+mylog = logger.getLogger(LOGGER_NAME)
 #get the stocklist 
 stock_list = db.stock_list.find()
 
 for row in stock_list:
     ticker = str(row['ticker'])
+    mylog.info("processing %s"%(ticker))
     stock_hist = db.cn_stock_hist.find({"ticker":ticker})
     hist_list = []
     for stock_row in stock_list:
