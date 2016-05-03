@@ -44,8 +44,10 @@ def fetch_cnstock_hist_to_mongo():
         cursor2 = db.cn_stock_hist.find({"ticker":ticker})
         if cursor2.count() > 0:
             continue
+	mylog.info("insert data of %s"%(ticker))
         st = ts.Market()
         df = st.MktEqud(ticker=ticker,beginDate=listDate, endDate=today, field="")
+	df['ticker'] = df['ticker'].map(lambda x: str(x).zfill(6))
         db.cn_stock_hist.insert(json.loads(df.to_json(orient='records')))
         time.sleep(1)
     
