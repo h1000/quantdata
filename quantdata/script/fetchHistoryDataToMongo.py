@@ -33,7 +33,7 @@ def run():
         cursor2 = db.cn_stock_hist.find({"ticker":ticker}).sort("tradeDate",pymongo.DESCENDING).limit(1)
         st = ts.Market()
         if cursor2.count() > 0:
-            start_date = cursor2[0]['tradeDate']
+            start_date = str(cursor2[0]['tradeDate']).replace("-", "")
             df = st.MktEqud(ticker=ticker,beginDate=start_date, endDate=today, field="")
             if df is not None and not df.empty:
                 if df['accumAdjFactor'][0] == 1:
