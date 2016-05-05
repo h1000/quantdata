@@ -17,16 +17,19 @@ stock_list = db.stock_list.find()
 for row in stock_list:
     ticker = str(row['ticker'])
     mylog.info("processing %s"%(ticker))
-    stock_hist = db.cn_stock_hist.find({"ticker":ticker})
+    stock_hist_list = db.cn_stock_hist.find({"ticker":ticker})
     hist_list = []
-    for stock_row in stock_list:
+    for stock_row in stock_hist_list:
         tradDate = datetime.strptime(stock_row['tradeDate'],"%Y-%m-%d")
+        if stock_row['PE'] <= 0 or stock_row['PB'] <= 0:
+            continue
         hist_list.append({'date':stock_row['tradeDate'],'pb':stock_row['PB'],'pe':stock_row['PE'],'year':tradDate.year})
     
     df = pd.DataFrame(hist_list)
+    df = df.dropna()
     group = df.groupby("year")
-    print group
-    break
+    df2 = group.min()
+    df2.to_csv("/home/jacob/pe/%s.csv"%(ticker))
 #get the lowest pe year by year 
 
 #make all year lowest pe pb into a dataframe 
