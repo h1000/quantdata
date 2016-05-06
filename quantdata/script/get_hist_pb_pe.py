@@ -3,6 +3,7 @@ from quantdata.db.mongo import Mongo
 from datetime import datetime
 from quantdata import logger
 import pandas as pd
+import json
 
 
 mongo = Mongo()
@@ -29,7 +30,9 @@ for row in stock_list:
     df = df.dropna()
     group = df.groupby("year")
     df2 = group.min()
-    df2.to_csv("/home/jacob/pe/%s.csv"%(ticker))
+    mongo = Mongo()
+    db = mongo.getDB()
+    db.year_min_value.insert(json.loads(df2.to_json(orient='records')))
 #get the lowest pe year by year 
 
 #make all year lowest pe pb into a dataframe 
