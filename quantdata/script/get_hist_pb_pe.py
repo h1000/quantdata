@@ -24,11 +24,11 @@ for row in stock_list:
         tradDate = datetime.strptime(stock_row['tradeDate'],"%Y-%m-%d")
         if stock_row['PE'] <= 0 or stock_row['PB'] <= 0:
             continue
-        hist_list.append({'date':stock_row['tradeDate'],'pb':stock_row['PB'],'pe':stock_row['PE'],'year':tradDate.year})
+        hist_list.append({'ticker':ticker,'date':stock_row['tradeDate'],'pb':stock_row['PB'],'pe':stock_row['PE'],'gr_year':tradDate.year,'year':tradDate.year})
     
     df = pd.DataFrame(hist_list)
     df = df.dropna()
-    group = df.groupby("year")
+    group = df.groupby("gr_year")
     df2 = group.min()
     mongo = Mongo()
     db = mongo.getDB()
