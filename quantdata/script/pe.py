@@ -12,7 +12,7 @@ def run():
     ts.set_token(ct.DATA_YES_TOKEN)
     st = ts.Market()
     today = datetime.strftime(datetime.today(),"%Y%m%d")
-    stock_list = st.MktEqud(tradeDate=today,field="ticker,PB,secShortName")
+    stock_list = st.MktEqud(tradeDate="20160513",field="ticker,PE,secShortName")
     if not isinstance(stock_list,pd.DataFrame) or stock_list.empty:
         return
     
@@ -22,23 +22,23 @@ def run():
     db = mongo.getDB()
     for i in stock_list.index:
         code = stock_list.loc[i,'ticker']
-        pb =  stock_list.loc[i,'PB']
+        pe =  stock_list.loc[i,'PE']
         name =  stock_list.loc[i,'secShortName']
-        if np.isnan(pb):
+        if np.isnan(pe):
             continue
         cursor = db.year_min_value.find({"ticker":code})
         if cursor.count() <= 0:
             continue
-        pb_list = []
+        pe_list = []
         for row in cursor:
-            pb_list.append(row['pb'])
-        min_pb = min(pb_list)
-        rate = (pb - min_pb)/min_pb
-        result.append({"code":code,"name":name,"pb":pb,"min_pb":min_pb,"rate":rate})
+            pe_list.append(row['pe'])
+        min_pe = min(pe_list)
+        rate = (pe - min_pe)/min_pe
+        result.append({"code":code,"name":name,"pe":pe,"min_pe":min_pe,"rate":rate})
     df = pd.DataFrame(result)
-    if db.lowest_pb_stock.find().count() > 0:
-        db.lowest_pb_stock.remove()
-    db.lowest_pb_stock.insert(json.loads(df.to_json(orient='records')))    
+    if db.lowest_pe_stock.find().count() > 0:
+        db.lowest_pe_stock.remove()
+    db.lowest_pe_stock.insert(json.loads(df.to_json(orient='records')))    
     
     
 if __name__ == '__main__':
