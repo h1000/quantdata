@@ -24,6 +24,12 @@
 `cd quantdata/analye`
 `python ../data/main_report_json.py`
 * 运行选股策略
-`python guandian_json_v2.py`  
- 生成一个execl文件  
- ![image](https://github.com/hezhenke/quantdata/blob/master/quantdata/pic/pic1.png)
+`python guandian_json_v2.py`生成一个execl文件  
+ ![image](https://github.com/hezhenke/quantdata/blob/master/quantdata/pic/pic1.png)  
+ 
+* 把程序选出的股票导入到同花顺自定义板块中  
+![image](https://github.com/hezhenke/quantdata/blob/master/quantdata/pic/pic2.png)  
+
+* 因为I问财可以对自定义板块进行二次筛选，在I问财进行选择
+
+![image](https://github.com/hezhenke/quantdata/blob/master/quantdata/pic/pic3.png)  
