@@ -20,6 +20,9 @@
 * 对股票数据进行实时监控，例如监控早盘突然直线线拉升的股票，通过监控提醒，不用盯盘就可以反手做T了
 
 ####  例子：寻找业绩拐点股票
-*从同花顺抓取基本面数据
+* 从同花顺抓取基本面数据  
 `cd quantdata/analye`
-  
+`python ../data/main_report_json.py`
+* 运行选股策略
+`python guandian_json_v2.py`
+  生成一个execl文件
