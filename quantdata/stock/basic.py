@@ -3,10 +3,8 @@ import json
 import pandas as pd
 import numpy as np
 from quantdata import cons as ct
-try:
-    from urllib.request import urlopen, Request
-except ImportError:
-    from urllib2 import urlopen, Request
+
+from urllib.request import urlopen, Request
 
 
 def get_main_report(code):
@@ -62,7 +60,7 @@ def _get_main_report(code):
             if i >= len(js['report']):
                 break
             if i > 0:
-                df[col] = map(_convert_to_float,js['report'][i])
+                df[col] = list(map(_convert_to_float,js['report'][i]))
             else:
                 df[col] = js['report'][i]
             i+=1
@@ -72,9 +70,9 @@ def _get_main_report(code):
         
 if __name__ == '__main__':
     
-    df = get_main_report(u'600000')
-    print df 
+    df = get_main_report('600000')
+    #print(df)
     d = "2013-12-31"
     
-    print df[df.date>d]
+    print(df[df.date>d])
     

@@ -16,6 +16,6 @@ setup(
     'Programming Language :: Python :: 3.3',
     'Programming Language :: Python :: 3.4',
     'License :: OSI Approved :: BSD License'],
-    packages=['quantdata','quantdata.stock','quantdata.db','quantdata.script'],
+    packages=['quantdata','quantdata.stock','quantdata.db','quantdata.script','quantdata.data','quantdata.analyze'],
     package_data={'': ['*.csv']},
 )

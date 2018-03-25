@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
-import urllib, urllib2
+import urllib
 import json
 from quantdata.db.mongo import Mongo
 from quantdata.stock import quotes
-
 
 def check_stock(code):
     mongo = Mongo()
@@ -14,7 +13,7 @@ def check_stock(code):
         report_list[str(row['date'])] = row
     if len(report_list) == 0:
         return False,None,None
-    key_list = report_list.keys()
+    key_list = list(report_list.keys())
     key_list.sort()
     key_list.reverse()
     last_two_quarter = key_list[0:2]
@@ -43,15 +42,15 @@ if __name__ == "__main__":
     stokList = quotes.get_stock_hq_list()
     data_list = []
     for i in stokList.index:
-        #去掉200亿市值以上的
-        if stokList.loc[i,"mktcap"] > 2000000:
+        try:
+            flag, quarter_grow,year_grow = check_stock(stokList.loc[i,"code"])
+            if flag:
+                data = {"code":stokList.loc[i,"code"],"quarter_grow1":quarter_grow[0],"quarter_grow2":quarter_grow[1],\
+                        "year_grow1":year_grow[0],"year_grow2":year_grow[1],"year_grow3":year_grow[2],"mktcap":stokList.loc[i,"mktcap"],\
+                        "name":stokList.loc[i,"name"]}
+                data_list.append(data)
+        except:
             continue
-        flag, quarter_grow,year_grow = check_stock(stokList.loc[i,"code"])
-        if flag:
-            data = {"code":stokList.loc[i,"code"],"quarter_grow1":quarter_grow[0],"quarter_grow2":quarter_grow[1],\
-                    "year_grow1":year_grow[0],"year_grow2":year_grow[1],"year_grow3":year_grow[2],"mktcap":stokList.loc[i,"mktcap"],\
-                    "name":stokList.loc[i,"name"]}
-            data_list.append(data)
     mongo = Mongo()
     db = mongo.getDB()
     db["guaidian_list"].remove()

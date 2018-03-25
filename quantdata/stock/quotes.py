@@ -2,13 +2,10 @@
 
 import pandas as pd
 import json
-from urllib import quote
+from urllib import parse
 from quantdata import cons as ct
+from urllib.request import urlopen, Request
 
-try:
-    from urllib.request import urlopen, Request
-except ImportError:
-    from urllib2 import urlopen, Request
 
 def get_stock_hq_list():
     """
@@ -53,7 +50,7 @@ def _get_stock_hq_list(pageNo, dataArr):
     try:
         #param:["hq","hs_a","{sort}",{asc},{page},{num}]
         hq_list_param = '["hq","hs_a","",0,%d,%d]'%(pageNo,ct.OPEN_API_PAGE_NUM)
-        request = Request(ct.SINA_OPEN_API_URL%(quote(hq_list_param,',[]')))
+        request = Request(ct.SINA_OPEN_API_URL%(parse.quote(hq_list_param,',[]')))
         request.add_header("User-Agent", ct.USER_AGENT)
         text = urlopen(request, timeout=ct.API_TIMEOUT).read()
         text = text.decode('gbk') if ct.PY3 else text 
@@ -71,4 +68,4 @@ def _get_stock_hq_list(pageNo, dataArr):
         print(e)    
 if __name__ == '__main__':
     df = get_stock_hq_list()
-    print df
+    print(df)
