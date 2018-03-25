@@ -25,4 +25,4 @@
 `python ../data/main_report_json.py`
 * 运行选股策略
 `python guandian_json_v2.py`
-** 生成一个execl文件
+  生成一个execl文件
