@@ -26,4 +26,4 @@
 * 运行选股策略
 `python guandian_json_v2.py`  
  生成一个execl文件  
- ![image][https://github.com/hezhenke/quantdata/blob/master/quantdata/pic/pic1.png]
+ ![image](https://github.com/hezhenke/quantdata/blob/master/quantdata/pic/pic1.png)
